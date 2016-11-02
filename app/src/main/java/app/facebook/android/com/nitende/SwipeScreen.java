@@ -1,10 +1,11 @@
 package app.facebook.android.com.nitende;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,12 +16,24 @@ import me.relex.circleindicator.CircleIndicator;
 /**
  * Created by jabala on 11/2/2016.
  */
-public class SwipeScreen extends AppCompatActivity {
+public class SwipeScreen extends Activity {
 
     ImageView submitButton;
     TextView text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences dataSave = getSharedPreferences("firstLog8", 0);
+
+        if(dataSave.getString("firstTime8", "").toString().equals("no")){ // first run is happened
+            Intent intent = new Intent(SwipeScreen.this,MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else{ //  this is the first run of application
+            SharedPreferences.Editor editor = dataSave.edit();
+            editor.putString("firstTime8", "no");
+            editor.commit();
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.swipescreen);
 

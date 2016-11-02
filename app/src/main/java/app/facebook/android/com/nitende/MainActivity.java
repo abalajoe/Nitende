@@ -40,11 +40,11 @@ public class MainActivity extends Activity {
 
         title = (TextView) findViewById(R.id.title);
         title.setTypeface(bold, Typeface.BOLD);
-        title.setTextColor(Color.WHITE);
+        title.setTextColor(Color.parseColor("#FFFFCC"));
 
         slogan = (TextView) findViewById(R.id.slogan);
         slogan.setTypeface(regular, Typeface.BOLD);
-        slogan.setTextColor(Color.WHITE);
+        slogan.setTextColor(Color.parseColor("#FFFFCC"));
 
         login =(Button) findViewById(R.id.login);
         login.setText("Login");
@@ -55,8 +55,8 @@ public class MainActivity extends Activity {
 
             @Override
             public void onClick(View view) {
-              //  Intent myIntent = new Intent(MainActivity.this, SignIn.class);
-               // startActivity(myIntent);
+              Intent myIntent = new Intent(MainActivity.this, SignIn.class);
+              startActivity(myIntent);
 
                 //slide from down to up
                 overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
@@ -67,14 +67,14 @@ public class MainActivity extends Activity {
         register =(Button) findViewById(R.id.register);
         register.setText("Create Account");
         register.setTypeface(regular);
-        register.setTextColor(Color.WHITE);
+        register.setTextColor(Color.parseColor("#FFFFCC"));
 
         register.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                //Intent myIntent = new Intent(MActivity.this, SignUpActivityName.class);
-                //startActivity(myIntent);
+                Intent myIntent = new Intent(MainActivity.this, Register.class);
+                startActivity(myIntent);
 
                 //slide from down to up
                 overridePendingTransition(R.anim.activity_in, R.anim.activity_out);

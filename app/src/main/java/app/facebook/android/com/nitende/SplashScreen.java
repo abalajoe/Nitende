@@ -1,7 +1,9 @@
 package app.facebook.android.com.nitende;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 /**
@@ -13,6 +15,18 @@ import android.os.Bundle;
 public class SplashScreen extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences dataSave = getSharedPreferences("firstLog7", 0);
+
+        if(dataSave.getString("firstTime7", "").toString().equals("no")){ // first run is happened
+            Intent intent = new Intent(SplashScreen.this,SwipeScreen.class);
+            startActivity(intent);
+            finish();
+        }
+        else{ //  this is the first run of application
+            SharedPreferences.Editor editor = dataSave.edit();
+            editor.putString("firstTime7", "no");
+            editor.commit();
+        }
 
         super.onCreate(savedInstanceState);
 
