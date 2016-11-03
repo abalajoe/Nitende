@@ -272,7 +272,7 @@ public class SignIn extends Activity {
         @Override
         protected void onPostExecute(final List<User> result) {
             super.onPostExecute(result);
-            //dialog.dismiss();
+            dialog.dismiss();
             int arrayCount = 0;
             int id = 0;
             String firstName = null;

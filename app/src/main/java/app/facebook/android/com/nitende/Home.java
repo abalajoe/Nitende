@@ -1,16 +1,13 @@
 package app.facebook.android.com.nitende;
 
-import android.content.Context;
+import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,37 +15,30 @@ import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-
 import app.facebook.android.com.nitende.datasource.LocalStore;
 import app.facebook.android.com.nitende.datasource.User;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private TextView firstNameText, lastNameText,
-            emailText, welcomeText, introText, hostText,
-            hostDescription, hotelText, hotelDescription, goodStay;
+    private TextView nameText, emailText,remindMe;
     private ImageView imageView, hostImage, downloadedImage;
     private LocalStore localStore;
-    private String firstName, lastName, email;
+    private String firstname, lastname, email;
+    private Button button;
     private int age;
     private ScrollView scrollView;
     private int dragThreshold = 10, downX = 0, downY = 0;
     private boolean lastPage = false;
+    private boolean status = false;
     public static final String SERVER_ADDRESS = "http://159.203.104.154/";
 
     @Override
@@ -58,22 +48,50 @@ public class Home extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //new DownloadImage("20160915064934639400").execute();
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              //  Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+               //         .setAction("Action", null).show();
+                NewNote fragmentOne = new NewNote();
+                android.app.FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.animator.fragment_slide_left_enter,
+                        R.animator.fragment_slide_left_exit,
+                        R.animator.fragment_slide_right_enter,
+                        R.animator.fragment_slide_right_exit);
+                fragmentTransaction.add(R.id.fragment_container, fragmentOne);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
 
-        localStore = new LocalStore(this);
-        User user = localStore.getLoggedInUser();
-        Log.d("user details [", user.getId() + user.getFirstname() + user.getEmail() + "]");
+            }
+        });
 
         // font
         Typeface quickSandBold = Typeface.createFromAsset(getAssets(), "fonts/Quicksand-Bold.otf");
         Typeface quickSandRegular = Typeface.createFromAsset(getAssets(), "fonts/Quicksand-Regular.otf");
         Typeface quickSandItalic = Typeface.createFromAsset(getAssets(), "fonts/Quicksand-Italic.otf");
 
+        localStore = new LocalStore(this);
+        User user = localStore.getLoggedInUser();
+        Log.d("user details [", user.getId() + user.getFirstname() + user.getEmail() + "]");
+        firstname = user.getFirstname();
+        email = user.getEmail();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header=navigationView.getHeaderView(0);
 
+        nameText = (TextView) header.findViewById(R.id.name);
+        nameText.setTypeface(quickSandRegular, Typeface.BOLD);
+        nameText.setTextColor(Color.BLUE);
+        nameText.setText(firstname);
+
+        emailText = (TextView) header.findViewById(R.id.email);
+        emailText.setTypeface(quickSandRegular, Typeface.BOLD);
+        emailText.setTextColor(Color.BLUE);
+        emailText.setText(email);
 
         // set navigation font
         Menu m = navigationView.getMenu();

@@ -1,0 +1,76 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E6E6FF"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    tools:context="app.facebook.android.com.nitende.Note">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/back_icon"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_close"/>
+
+        <EditText
+            android:id="@+id/edit_note"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="e.g buy bread..."
+            android:textSize="13dp"
+            android:inputType="text|textMultiLine"/>
+
+        <RelativeLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="20dp">
+            <ImageView
+                android:id="@+id/remind_icon"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/remind_icon"/>
+
+            <TextView
+                android:id="@+id/remind_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="remind me"
+                android:paddingTop="7dp"
+                android:paddingLeft="10dp"
+                android:layout_toRightOf="@+id/remind_icon"/>
+
+            <ImageView
+                android:id="@+id/submit_icon"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/icon_submit"/>
+        </RelativeLayout>
+        <CalendarView
+            android:id="@+id/calendar"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+</FrameLayout>

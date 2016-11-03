@@ -22,7 +22,7 @@ public class SwipeScreen extends Activity {
     TextView text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences dataSave = getSharedPreferences("firstLog8", 0);
+        /*SharedPreferences dataSave = getSharedPreferences("firstLog8", 0);
 
         if(dataSave.getString("firstTime8", "").toString().equals("no")){ // first run is happened
             Intent intent = new Intent(SwipeScreen.this,MainActivity.class);
@@ -33,7 +33,7 @@ public class SwipeScreen extends Activity {
             SharedPreferences.Editor editor = dataSave.edit();
             editor.putString("firstTime8", "no");
             editor.commit();
-        }
+        }*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.swipescreen);
 

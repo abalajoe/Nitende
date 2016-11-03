@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:allowBackup="true"
@@ -12,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashScreen"
+            android:name=".MainActivity"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -27,10 +28,10 @@
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
             android:screenOrientation="portrait" />
 
-        <activity
+        <!--<activity
             android:name=".MainActivity"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" />-->
 
         <activity
             android:name=".Home"
@@ -49,6 +50,10 @@
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
 
+        <receiver android:name="app.facebook.android.com.nitende.AlarmReceiver" android:enabled="true">
+        </receiver>
+        <receiver android:name="app.facebook.android.com.nitende.CancelAlarmReceiver" android:enabled="true">
+        </receiver>
     </application>
 
 </manifest>

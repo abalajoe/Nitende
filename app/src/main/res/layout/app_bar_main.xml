@@ -18,8 +18,4 @@
             android:background="#db4d3f" />
 
     </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/content_main" />
-
-
 </android.support.design.widget.CoordinatorLayout>
