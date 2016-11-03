@@ -27,7 +27,7 @@
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:hint="e.g buy bread..."
+            android:hint=" my todo e.g buy bread..."
             android:textSize="13dp"
             android:inputType="text|textMultiLine"/>
 

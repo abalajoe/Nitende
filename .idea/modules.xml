@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Nitende.iml" filepath="$PROJECT_DIR$/Nitende.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nitende.iml" filepath="$PROJECT_DIR$/nitende.iml" />
     </modules>
   </component>
 </project>

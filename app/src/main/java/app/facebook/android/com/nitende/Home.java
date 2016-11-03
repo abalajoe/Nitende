@@ -203,9 +203,10 @@ public class Home extends AppCompatActivity
         int id = item.getItemId();
         android.app.FragmentManager fragmentManager = getFragmentManager();
         if (id == R.id.homee) {
-            // Handle the camera_main action
-            //fragmentManager.beginTransaction().replace(R.id.content_frame, new FirstFragment()).commit();
             startActivity(new Intent(getApplicationContext(), Home.class));
+        } else if (id == R.id.notes) {
+            startActivity(new Intent(getApplicationContext(), MyNote.class));
+            overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
         } else if (id == R.id.logout) {
             localStore = new LocalStore(this);
             localStore.clearUserData();

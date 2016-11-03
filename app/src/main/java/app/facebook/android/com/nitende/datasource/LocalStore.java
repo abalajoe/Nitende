@@ -39,7 +39,16 @@ public class LocalStore {
         editor.commit();
     }
 
-
+    /**
+     * store user data
+     * @param note - user note
+     */
+    public void storeNote(String key, String note){
+        // edit what contained in sharedPreference
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, note);
+        editor.commit();
+    }
 
     /**
      * get logged in user
