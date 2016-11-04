@@ -14,14 +14,31 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
 
-public class AlarmReceiver extends BroadcastReceiver
-{
+import java.util.Calendar;
+
+import app.facebook.android.com.nitende.datasource.LocalStore;
+
+public class AlarmReceiver extends BroadcastReceiver {
+    private LocalStore localStore;
+    private String note;
+    private String time;
     @Override
-    public void onReceive(Context context, Intent intent)
-    {
-        Toast.makeText(context, "Alarm! Wake up! Wake up!", Toast.LENGTH_LONG).show();
+    public void onReceive(Context context, Intent intent) {
+        Log.d("calendar", "============================================ receive ================================================");
+        localStore = new LocalStore(context);
+        Calendar calendar = Calendar.getInstance();
+        String hour = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
+        String minute = String.valueOf(calendar.get(Calendar.MINUTE));
+        time = hour + ":" + minute;
+        Log.d("calendar", hour + minute);
+
+        note = localStore.getNote(hour + minute);
+        Log.d("note", note);
+
+        Toast.makeText(context, time + " - " + note, Toast.LENGTH_LONG).show();
         /*Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         if (alarmUri == null)
         {
@@ -38,9 +55,9 @@ public class AlarmReceiver extends BroadcastReceiver
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(android.R.drawable.ic_menu_more)
-                        .setContentTitle("My notification")
-                        .setContentText("Hello World!");
+                        .setSmallIcon(android.R.drawable.ic_dialog_alert)
+                        .setContentTitle("NiTENDE")
+                        .setContentText(time + " - "+ note);
         mBuilder.setContentIntent(contentIntent);
         mBuilder.setDefaults(Notification.DEFAULT_SOUND);
         mBuilder.setAutoCancel(true);

@@ -10,5 +10,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/todolist"/>
+        android:src="@drawable/td"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NiTENDE"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center"
+        android:textSize="25sp" />
 </LinearLayout>

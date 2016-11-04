@@ -14,6 +14,8 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.view.ScrollingView;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -25,6 +27,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,7 +59,9 @@ import app.facebook.android.com.nitende.datasource.User;
  */
 public class SignIn extends Activity {
 
-    private TextView closeText, forgotPasswordText, signInText, emailText, passwordText, backText;
+    private TextView failedLoginSnack, forgotPasswordText, signInText, emailText,
+            passwordText, backText, connectionProblemSnack, loginErrorSnack, emptyEmailSnack,
+            emptyPasswordSnack, invalidEmailSnack, forgotPasswordSnack;
     private EditText emailEditText, passwordEditText;
     private ImageView backButton, submitButton;
     private CheckBox showPassword;
@@ -69,11 +74,23 @@ public class SignIn extends Activity {
     HashMap location;
     private String emailTyped = null;
     private String passwordTyped = null;
+    private ScrollingView scrollView;
+    private LinearLayout linearLayout;
+    private Snackbar failedLogin;
+    private Snackbar connectionProblem;
+    private Snackbar loginError;
+    private Snackbar emptyEmail;
+    private Snackbar emptyPassword;
+    private Snackbar invalidEmail;
+    private Snackbar forgotPassword;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signin);
 
+
+        linearLayout = (LinearLayout) findViewById(R.id.linear);
         location = new HashMap();
         // init local store
         localStore = new LocalStore(this);
@@ -81,6 +98,48 @@ public class SignIn extends Activity {
         // font family
         Typeface myFont = Typeface.createFromAsset(getAssets(), "fonts/Quicksand-Bold.otf");
         Typeface myFont2 = Typeface.createFromAsset(getAssets(), "fonts/Quicksand-Regular.otf");
+
+        failedLogin = Snackbar.make(linearLayout, "Invalid Login Credentials", Snackbar.LENGTH_LONG)
+                .setAction("Action", null);
+
+        connectionProblem = Snackbar.make(linearLayout, "Login Error. You are currently offline!", Snackbar.LENGTH_LONG)
+                .setAction("Action", null);
+
+        loginError = Snackbar.make(linearLayout, "Problem Logging in, please try again.", Snackbar.LENGTH_LONG)
+                .setAction("Action", null);
+
+        forgotPassword = Snackbar.make(linearLayout, "Functionality not implemented!", Snackbar.LENGTH_LONG)
+                .setAction("Action", null);
+
+        failedLoginSnack = (TextView) failedLogin.getView().findViewById(android.support.design.R.id.snackbar_text);
+        failedLoginSnack.setTypeface(myFont2);
+
+        connectionProblemSnack = (TextView) connectionProblem.getView().findViewById(android.support.design.R.id.snackbar_text);
+        connectionProblemSnack.setTypeface(myFont2);
+
+        loginErrorSnack = (TextView) loginError.getView().findViewById(android.support.design.R.id.snackbar_text);
+        loginErrorSnack.setTypeface(myFont2);
+
+        emptyEmail = Snackbar.make(linearLayout, "Please Enter Email Address", Snackbar.LENGTH_LONG)
+                .setAction("Action", null);
+
+        emptyPassword = Snackbar.make(linearLayout, "Please Enter Password", Snackbar.LENGTH_LONG)
+                .setAction("Action", null);
+
+        emptyEmailSnack = (TextView) emptyEmail.getView().findViewById(android.support.design.R.id.snackbar_text);
+        emptyEmailSnack.setTypeface(myFont2);
+
+        forgotPasswordSnack = (TextView) forgotPassword.getView().findViewById(android.support.design.R.id.snackbar_text);
+        forgotPasswordSnack.setTypeface(myFont2);
+
+        emptyPasswordSnack = (TextView) emptyPassword.getView().findViewById(android.support.design.R.id.snackbar_text);
+        emptyPasswordSnack.setTypeface(myFont2);
+
+        invalidEmail = Snackbar.make(linearLayout, "Please Enter a valid Email Address", Snackbar.LENGTH_LONG)
+                .setAction("Action", null);
+
+        invalidEmailSnack = (TextView) invalidEmail.getView().findViewById(android.support.design.R.id.snackbar_text);
+        invalidEmailSnack.setTypeface(myFont2);
 
         dialog = new ProgressDialog(this);
         dialog.setIndeterminate(true);
@@ -151,6 +210,7 @@ public class SignIn extends Activity {
 
             @Override
             public void onClick(View view) {
+                forgotPassword.show();
                 //Intent myIntent = new Intent(getApplicationContext(), ForgotPasswordActivity.class);
                // startActivity(myIntent);
                 //slide from right to left
@@ -163,11 +223,24 @@ public class SignIn extends Activity {
     }
 
     public void loginUser(View v) {
-        Log.d("logvinn", emailEditText.getText().toString() + ":"+ passwordEditText.getText().toString());
-        emailTyped = emailEditText.getText().toString();
-        passwordTyped = passwordEditText.getText().toString();
-        Log.d("signIn", emailTyped + passwordTyped);
-        new LoginTask().execute(URL_TO_HIT);
+       // String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+        String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        String email = emailEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString().trim();
+        if (email.equals("")){
+            emptyEmail.show();
+        } else if (!email.matches(EMAIL_REGEX)){
+            invalidEmail.show();
+        } else if (password.equals("")){
+            emptyPassword.show();
+        } else {
+            Log.d("logvinn", emailEditText.getText().toString() + ":"+ passwordEditText.getText().toString());
+            emailTyped = emailEditText.getText().toString();
+            passwordTyped = passwordEditText.getText().toString();
+            Log.d("signIn", emailTyped + passwordTyped);
+            new LoginTask().execute(URL_TO_HIT);
+        }
 
     }
 
@@ -297,13 +370,16 @@ public class SignIn extends Activity {
 
             } else {
                 if (connectionIssue){
-                    Toast.makeText(getApplicationContext(), "Log in Error. You are currently offline!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Log in Error. You are currently offline!", Toast.LENGTH_SHORT).show();
+                    connectionProblem.show();
                     connectionIssue = false;
                 } else if (loginFailed == true){
-                    Toast.makeText(getApplicationContext(), "Invalid Login Credentials", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Invalid Login Credentials", Toast.LENGTH_SHORT).show();
+                    failedLogin.show();
                     loginFailed = false;
                 } else {
-                    Toast.makeText(getApplicationContext(), "Problem Logging in, please try again.", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Problem Logging in, please try again.", Toast.LENGTH_SHORT).show();
+                    loginError.show();
                 }
 
             }

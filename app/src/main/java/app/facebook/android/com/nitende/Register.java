@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,7 +55,9 @@ import app.facebook.android.com.nitende.datasource.User;
  */
 public class Register extends Activity {
 
-    private TextView closeText, firstNameText, forgotPasswordText, signInText, emailText, passwordText, backText;
+    private TextView closeText, firstNameText, forgotPasswordText, signInText, emailText,
+            passwordText, backText,connectionProblemSnack, loginErrorSnack, emptyEmailSnack,
+            emptyPasswordSnack, invalidEmailSnack,failedRegisterSnack, emptyNameSnack;
     private EditText emailEditText, passwordEditText, firstNameEdit;
     private ImageView backButton, submitButton;
     private CheckBox showPassword;
@@ -67,6 +71,15 @@ public class Register extends Activity {
     private String firstNameTyped = null;
     private String emailTyped = null;
     private String passwordTyped = null;
+
+    private Snackbar failedRegister;
+    private Snackbar connectionProblem;
+    private Snackbar loginError;
+    private Snackbar emptyName;
+    private Snackbar emptyEmail;
+    private Snackbar emptyPassword;
+    private Snackbar invalidEmail;
+    private LinearLayout linearLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +92,51 @@ public class Register extends Activity {
         // font family
         Typeface myFont = Typeface.createFromAsset(getAssets(), "fonts/Quicksand-Bold.otf");
         Typeface myFont2 = Typeface.createFromAsset(getAssets(), "fonts/Quicksand-Regular.otf");
+
+        linearLayout = (LinearLayout) findViewById(R.id.linear);
+
+        failedRegister = Snackbar.make(linearLayout, "The Email Address exists, try again.", Snackbar.LENGTH_LONG)
+                .setAction("Action", null);
+
+        connectionProblem = Snackbar.make(linearLayout, "Registration Error. You are currently offline!", Snackbar.LENGTH_LONG)
+                .setAction("Action", null);
+
+        loginError = Snackbar.make(linearLayout, "Problem registering, please try again.", Snackbar.LENGTH_LONG)
+                .setAction("Action", null);
+
+        failedRegisterSnack = (TextView) failedRegister.getView().findViewById(android.support.design.R.id.snackbar_text);
+        failedRegisterSnack.setTypeface(myFont2);
+
+        connectionProblemSnack = (TextView) connectionProblem.getView().findViewById(android.support.design.R.id.snackbar_text);
+        connectionProblemSnack.setTypeface(myFont2);
+
+        loginErrorSnack = (TextView) loginError.getView().findViewById(android.support.design.R.id.snackbar_text);
+        loginErrorSnack.setTypeface(myFont2);
+
+        emptyName = Snackbar.make(linearLayout, "Please Enter Your First Name", Snackbar.LENGTH_LONG)
+                .setAction("Action", null);
+
+        emptyNameSnack = (TextView) emptyName.getView().findViewById(android.support.design.R.id.snackbar_text);
+        emptyNameSnack.setTypeface(myFont2);
+
+        emptyEmail = Snackbar.make(linearLayout, "Please Enter Email Address", Snackbar.LENGTH_LONG)
+                .setAction("Action", null);
+
+        emptyPassword = Snackbar.make(linearLayout, "Please Enter Password", Snackbar.LENGTH_LONG)
+                .setAction("Action", null);
+
+        emptyEmailSnack = (TextView) emptyEmail.getView().findViewById(android.support.design.R.id.snackbar_text);
+        emptyEmailSnack.setTypeface(myFont2);
+
+        emptyPasswordSnack = (TextView) emptyPassword.getView().findViewById(android.support.design.R.id.snackbar_text);
+        emptyPasswordSnack.setTypeface(myFont2);
+
+        invalidEmail = Snackbar.make(linearLayout, "Please Enter a valid Email Address", Snackbar.LENGTH_LONG)
+                .setAction("Action", null);
+
+        invalidEmailSnack = (TextView) invalidEmail.getView().findViewById(android.support.design.R.id.snackbar_text);
+        invalidEmailSnack.setTypeface(myFont2);
+
 
         dialog = new ProgressDialog(this);
         dialog.setIndeterminate(true);
@@ -152,13 +210,30 @@ public class Register extends Activity {
     }
 
     public void registerUser(View v) {
-        Log.d("logvinn", firstNameEdit.getText().toString() +":"+emailEditText.getText().toString() + ":"+ passwordEditText.getText().toString());
-        firstNameTyped = firstNameEdit.getText().toString();
-        emailTyped = emailEditText.getText().toString();
-        passwordTyped = passwordEditText.getText().toString();
-        Log.d("signIn", emailTyped + passwordTyped);
-        new registerTask().execute(URL_TO_HIT);
 
+
+        String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        String firstName = firstNameEdit.getText().toString().trim();
+        String email = emailEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString().trim();
+        if (firstName.equals("")){
+            emptyName.show();
+        } else if (email.equals("")){
+            emptyEmail.show();
+        } else if (!email.matches(EMAIL_REGEX)){
+            invalidEmail.show();
+        } else if (password.equals("")){
+            emptyPassword.show();
+        } else {
+           Log.d("logvinn", firstNameEdit.getText().toString() +":"+emailEditText.getText().toString() + ":"+ passwordEditText.getText().toString());
+            firstNameTyped = firstNameEdit.getText().toString();
+            emailTyped = emailEditText.getText().toString();
+            passwordTyped = passwordEditText.getText().toString();
+            Log.d("signIn", emailTyped + passwordTyped);
+            new registerTask().execute(URL_TO_HIT);
+          //  Toast.makeText(getApplicationContext(), "successfully registered, please log in.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public class registerTask extends AsyncTask<String,String, String > {
@@ -248,10 +323,12 @@ public class Register extends Activity {
 
             } else {
                 if (connectionIssue){
-                    Toast.makeText(getApplicationContext(), "Log in Error. You are currently offline!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Log in Error. You are currently offline!", Toast.LENGTH_SHORT).show();
+                    connectionProblem.show();
                     connectionIssue = false;
                 } else {
-                    Toast.makeText(getApplicationContext(), "Problem Logging in, please try again.", Toast.LENGTH_SHORT).show();
+                    failedRegister.show();
+                    //Toast.makeText(getApplicationContext(), "T", Toast.LENGTH_SHORT).show();
                 }
 
             }

@@ -8,14 +8,14 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@drawable/td"
+        android:label="NiTENDE"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
-            android:label=""
-            android:theme="@style/AppTheme.NoActionBar"
+            android:name=".StartApp"
+            android:label="NiTENDE"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -39,11 +39,14 @@
             android:name=".SwipeScreen"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
             android:screenOrientation="portrait" />
-
-        <!--<activity
+        <activity
+            android:name=".SplashScreen"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".MainActivity"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
-            android:screenOrientation="portrait" />-->
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".Home"
@@ -52,7 +55,7 @@
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MyNote"
+            android:name=".MyNotes"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait" />
@@ -66,9 +69,14 @@
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
 
-        <receiver android:name="app.facebook.android.com.nitende.AlarmReceiver" android:enabled="true">
-        </receiver>
-        <receiver android:name="app.facebook.android.com.nitende.CancelAlarmReceiver" android:enabled="true">
+        <!--<receiver android:name="app.facebook.android.com.nitende.AlarmReceiver">
+        </receiver>-->
+        <receiver
+            android:name="app.facebook.android.com.nitende.AlarmReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="nitende.broadcast" />
+            </intent-filter>
         </receiver>
     </application>
 

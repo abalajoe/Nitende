@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.widget.TextView;
 
 /**
  *
@@ -13,25 +16,22 @@ import android.os.Bundle;
  * First Activity when our application launches
  */
 public class SplashScreen extends Activity {
+    private TextView title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences dataSave = getSharedPreferences("firstLog7", 0);
-
-        if(dataSave.getString("firstTime7", "").toString().equals("no")){ // first run is happened
-            Intent intent = new Intent(SplashScreen.this,SwipeScreen.class);
-            startActivity(intent);
-            finish();
-        }
-        else{ //  this is the first run of application
-            SharedPreferences.Editor editor = dataSave.edit();
-            editor.putString("firstTime7", "no");
-            editor.commit();
-        }
-
         super.onCreate(savedInstanceState);
 
         // set activity content from layout resourse
         setContentView(R.layout.splashscreen);
+
+        // font family
+        Typeface bold = Typeface.createFromAsset(getAssets(), "fonts/Quicksand-Bold.otf");
+        Typeface light = Typeface.createFromAsset(getAssets(), "fonts/Quicksand-Light.otf");
+        Typeface regular = Typeface.createFromAsset(getAssets(), "fonts/Quicksand-Regular.otf");
+
+        title = (TextView) findViewById(R.id.title);
+        title.setTypeface(light, Typeface.BOLD);
+        title.setTextColor(Color.parseColor("#FFFFCC"));
 
         /**
          * Display activity for t time and move to next activity

@@ -32,7 +32,7 @@ public class Home extends AppCompatActivity
     private TextView nameText, emailText,remindMe;
     private ImageView imageView, hostImage, downloadedImage;
     private LocalStore localStore;
-    private String firstname, lastname, email;
+    private String id, firstname, lastname, email;
     private Button button;
     private int age;
     private ScrollView scrollView;
@@ -86,12 +86,12 @@ public class Home extends AppCompatActivity
         nameText = (TextView) header.findViewById(R.id.name);
         nameText.setTypeface(quickSandRegular, Typeface.BOLD);
         nameText.setTextColor(Color.BLUE);
-        nameText.setText(firstname);
+        nameText.setText("Welcome " + firstname);
 
         emailText = (TextView) header.findViewById(R.id.email);
         emailText.setTypeface(quickSandRegular, Typeface.BOLD);
         emailText.setTextColor(Color.BLUE);
-        emailText.setText(email);
+        emailText.setText("");
 
         // set navigation font
         Menu m = navigationView.getMenu();
@@ -139,21 +139,18 @@ public class Home extends AppCompatActivity
     public void onStart(){
         super.onStart();
 
-        /*if (authenticated() == true){
+        if (authenticated() == true){
             User user = localStore.getLoggedInUser();
             // init user details
-            this.firstName = user.getFirstName();
-            this.lastName = user.getLastName();
+            this.id = String.valueOf(user.getId());
+            this.firstname = user.getFirstname();
             this.email = user.getEmail();
-            this.age = user.getAge();
 
-            Log.d("resSD", user.getFirstName() + user.getLastName() + user.getEmail() + user.getAge());
+            Log.d("resSD", id + firstname + email);
 
-            /*Toast.makeText(getApplicationContext(), user.getFirstName() + user.getLastName()
-                    + user.getEmail() + user.getAge() + user.getPassword(), Toast.LENGTH_SHORT).show();*/
-        /*} else {
-            startActivity(new Intent(getApplicationContext(), SignInActivity.class));
-        }*/
+        } else {
+            startActivity(new Intent(getApplicationContext(), SignIn.class));
+        }
     }
 
     /**
@@ -205,7 +202,7 @@ public class Home extends AppCompatActivity
         if (id == R.id.homee) {
             startActivity(new Intent(getApplicationContext(), Home.class));
         } else if (id == R.id.notes) {
-            startActivity(new Intent(getApplicationContext(), MyNote.class));
+            startActivity(new Intent(getApplicationContext(), MyNotes.class));
             overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
         } else if (id == R.id.logout) {
             localStore = new LocalStore(this);

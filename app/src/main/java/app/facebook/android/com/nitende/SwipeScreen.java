@@ -22,16 +22,16 @@ public class SwipeScreen extends Activity {
     TextView text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*SharedPreferences dataSave = getSharedPreferences("firstLog8", 0);
+        /*SharedPreferences dataSave = getSharedPreferences("firstLog9", 0);
 
-        if(dataSave.getString("firstTime8", "").toString().equals("no")){ // first run is happened
+        if(dataSave.getString("firstTime9", "").toString().equals("no")){ // first run is happened
             Intent intent = new Intent(SwipeScreen.this,MainActivity.class);
             startActivity(intent);
             finish();
         }
-        else{ //  this is the first run of application
+        else { //  this is the first run of application
             SharedPreferences.Editor editor = dataSave.edit();
-            editor.putString("firstTime8", "no");
+            editor.putString("firstTime9", "no");
             editor.commit();
         }*/
         super.onCreate(savedInstanceState);

@@ -15,19 +15,16 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical">
 
-       <!-- <ImageView
-            android:id="@+id/logo_icon"
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="NiTENDE"
+            android:gravity="center_horizontal"
             android:layout_gravity="center"
-            android:src="@drawable/todo"/>-->
-        <RelativeLayout
-            android:id="@+id/fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginTop="20dp">
-
-        </RelativeLayout>
+            android:textSize="25sp" />
 
     </LinearLayout>
     <android.support.design.widget.CoordinatorLayout

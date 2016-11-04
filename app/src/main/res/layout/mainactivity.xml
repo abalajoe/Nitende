@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:scaleType="fitXY"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/todolist"
+            android:background="@drawable/td"
             />
     </LinearLayout>
     <LinearLayout

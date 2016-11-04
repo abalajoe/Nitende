@@ -40,14 +40,24 @@ public class LocalStore {
     }
 
     /**
-     * store user data
+     * store user note
      * @param note - user note
      */
-    public void storeNote(String key, String note){
+    public void storeNote(String time, String note){
         // edit what contained in sharedPreference
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(key, note);
+        editor.putString(time, note);
         editor.commit();
+    }
+
+    /**
+     * store user note
+     * @param time - note time
+     */
+    public String getNote(String time){
+        // edit what contained in sharedPreference
+        String note = sharedPreferences.getString(time,"");
+        return note;
     }
 
     /**
